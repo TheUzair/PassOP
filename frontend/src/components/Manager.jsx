@@ -22,7 +22,7 @@ const Manager = () => {
   });
 
   const getPasswords = async () => {
-    let req = await fetch(`${process.env.REACT_APP_API_URL}/`);
+    let req = await fetch("https://passop-xfz3.onrender.com");
     let passwords = await req.json();
     setPasswdArray(passwords);
   };
@@ -102,7 +102,7 @@ const Manager = () => {
       try {
         if (editMode) {
           
-          await fetch(`${process.env.REACT_APP_API_URL}/`, {
+          await fetch("https://passop-xfz3.onrender.com", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const Manager = () => {
           setEditMode(false);
         } else {
           
-          await fetch(`${process.env.REACT_APP_API_URL}/`, {
+          await fetch("https://passop-xfz3.onrender.com", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -151,7 +151,7 @@ const Manager = () => {
     if (deleteId === null) return;
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/`, {
+      const response = await fetch("https://passop-xfz3.onrender.com", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
