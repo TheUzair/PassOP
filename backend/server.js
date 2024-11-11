@@ -42,6 +42,12 @@ client
     // Delete a password by id
     app.delete("/", async (req, res) => {
       const { id } = req.body;
+      const credentials = req.body;
+        
+      if (!credentials.site || !credentials.userName || !credentials.passWord) {
+          return res.status(400).json({ error: "Missing required fields" });
+      }
+      
       await collection.deleteOne({ id });
       const findResult = await collection.find({}).toArray();
       res.send({ success: true, result: findResult });

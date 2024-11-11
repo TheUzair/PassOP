@@ -22,7 +22,7 @@ const Manager = () => {
   });
 
   const getPasswords = async () => {
-    let req = await fetch("http://localhost:3000/");
+    let req = await fetch(`${process.env.REACT_APP_API_URL}/`);
     let passwords = await req.json();
     setPasswdArray(passwords);
   };
@@ -102,7 +102,7 @@ const Manager = () => {
       try {
         if (editMode) {
           
-          await fetch("http://localhost:3000/", {
+          await fetch(`${process.env.REACT_APP_API_URL}/`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const Manager = () => {
           setEditMode(false);
         } else {
           
-          await fetch("http://localhost:3000/", {
+          await fetch(`${process.env.REACT_APP_API_URL}/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -151,7 +151,7 @@ const Manager = () => {
     if (deleteId === null) return;
 
     try {
-      const response = await fetch("http://localhost:3000/", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
