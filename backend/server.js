@@ -16,11 +16,26 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+
+// CORS configuration
 app.use(cors({
-  origin: 'https://pass-op-olive.vercel.app', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],                   
-  allowedHeaders: ['Content-Type', 'Authorization'] 
+    origin: [
+        'https://pass-op-olive.vercel.app',
+        'http://localhost:5173', // for local development
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Rest of your server code...
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://pass-op-olive.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 client
   .connect()
