@@ -39,7 +39,7 @@ PassOp is a secure password management application built with React and Vite, fe
 
 1. **Clone the repository:**
    ```bash
-   git clone [your-repo-url]
+   git clone [https://github.com/TheUzair/PassOP.git](https://github.com/TheUzair/PassOP.git)
    ```
 
 2. **Install frontend dependencies:**
