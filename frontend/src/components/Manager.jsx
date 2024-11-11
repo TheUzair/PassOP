@@ -22,13 +22,7 @@ const Manager = () => {
   });
 
   const getPasswords = async () => {
-    const req = await fetch('https://passop-xfz3.onrender.com/api/passwords', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-          'Content-Type': 'application/json'
-      }
-    });
+    let req = await fetch("https://passop-xfz3.onrender.com");
     let passwords = await req.json();
     setPasswdArray(passwords);
   };
@@ -108,7 +102,7 @@ const Manager = () => {
       try {
         if (editMode) {
           
-          await fetch('https://passop-xfz3.onrender.com/api/passwords', {
+          await fetch("https://passop-xfz3.onrender.com", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -118,7 +112,7 @@ const Manager = () => {
           setEditMode(false);
         } else {
           
-          await fetch('https://passop-xfz3.onrender.com/api/passwords', {
+          await fetch("https://passop-xfz3.onrender.com", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -157,7 +151,7 @@ const Manager = () => {
     if (deleteId === null) return;
 
     try {
-      const response = await fetch('https://passop-xfz3.onrender.com/api/passwords', {
+      const response = await fetch("https://passop-xfz3.onrender.com", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
