@@ -16,7 +16,11 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://pass-op-olive.vercel.app', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],                   
+  allowedHeaders: ['Content-Type', 'Authorization'] 
+}));
 
 client
   .connect()
@@ -47,7 +51,7 @@ client
       if (!credentials.site || !credentials.userName || !credentials.passWord) {
           return res.status(400).json({ error: "Missing required fields" });
       }
-      
+
       await collection.deleteOne({ id });
       const findResult = await collection.find({}).toArray();
       res.send({ success: true, result: findResult });
