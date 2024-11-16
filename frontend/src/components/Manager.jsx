@@ -10,11 +10,11 @@ const Manager = () => {
   const passwdRef = useRef();
   const [form, setForm] = useState({ site: "", userName: "", passWord: "" });
   const [passwdArray, setPasswdArray] = useState([]);
-  const [showModal, setShowModal] = useState(false); 
-  const [deleteId, setDeleteId] = useState(null); 
-  const [editMode, setEditMode] = useState(false); 
-  const [originalId, setOriginalId] = useState(null); 
-  const [isUpdateDisabled, setIsUpdateDisabled] = useState(true); 
+  const [showModal, setShowModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [originalId, setOriginalId] = useState(null);
+  const [isUpdateDisabled, setIsUpdateDisabled] = useState(true);
   const [originalForm, setOriginalForm] = useState({
     site: "",
     userName: "",
@@ -38,14 +38,14 @@ const Manager = () => {
         form.userName !== originalForm.userName ||
         form.passWord !== originalForm.passWord
       ) {
-        setIsUpdateDisabled(false); 
+        setIsUpdateDisabled(false);
       } else {
-        setIsUpdateDisabled(true); 
+        setIsUpdateDisabled(true);
       }
     } else {
-      setIsUpdateDisabled(false); 
+      setIsUpdateDisabled(false);
     }
-  }, [form, originalForm, editMode]); 
+  }, [form, originalForm, editMode]);
 
   useEffect(() => {
     const allFieldsFilled = form.site.length > 0 && form.userName.length > 0 && form.passWord.length > 0;
@@ -81,16 +81,16 @@ const Manager = () => {
   const editPasswd = (id) => {
     const itemToEdit = passwdArray.find((item) => item.id === id);
     setForm(itemToEdit);
-    setOriginalForm(itemToEdit); 
-    setOriginalId(id); 
-    setEditMode(true); 
-    setIsUpdateDisabled(true); 
+    setOriginalForm(itemToEdit);
+    setOriginalId(id);
+    setEditMode(true);
+    setIsUpdateDisabled(true);
   };
 
   const cancelEdit = () => {
-    setForm({ site: "", userName: "", passWord: "" }); 
-    setEditMode(false); 
-    setIsUpdateDisabled(true); 
+    setForm({ site: "", userName: "", passWord: "" });
+    setEditMode(false);
+    setIsUpdateDisabled(true);
   };
 
   const savePassword = async () => {
@@ -101,17 +101,17 @@ const Manager = () => {
     ) {
       try {
         if (editMode) {
-          
+
           await fetch("https://passop-xfz3.onrender.com", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id: originalId, ...form }), 
+            body: JSON.stringify({ id: originalId, ...form }),
           });
           setEditMode(false);
         } else {
-          
+
           await fetch("https://passop-xfz3.onrender.com", {
             method: "POST",
             headers: {
@@ -122,7 +122,7 @@ const Manager = () => {
         }
         setForm({ site: "", userName: "", passWord: "" });
         setOriginalId(null);
-        getPasswords(); 
+        getPasswords();
         toast("Saved successfully!", {
           position: "top-right",
           autoClose: 5000,
@@ -143,8 +143,8 @@ const Manager = () => {
   };
 
   const deletePasswd = async (id) => {
-    setShowModal(true); 
-    setDeleteId(id); 
+    setShowModal(true);
+    setDeleteId(id);
   };
 
   const confirmDelete = async () => {
@@ -162,7 +162,7 @@ const Manager = () => {
         throw new Error("Failed to delete item");
       }
       const data = await response.json();
-      setPasswdArray(data.result); 
+      setPasswdArray(data.result);
       toast("Deleted successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -177,7 +177,7 @@ const Manager = () => {
       console.error("Error deleting password:", error);
       toast.error("Error: Password not deleted!!");
     } finally {
-      setShowModal(false); 
+      setShowModal(false);
     }
   };
 
@@ -264,17 +264,16 @@ const Manager = () => {
             <button
               onClick={savePassword}
               disabled={editMode ? isUpdateDisabled : !form.site || !form.userName || !form.passWord}
-              className={`flex justify-center items-center ${
-                editMode
-                  ? isUpdateDisabled
-                    ? "bg-indigo-500 border-2 border-indigo-500 cursor-not-allowed opacity-50"
-                    : "bg-indigo-600 border-2 border-indigo-500 hover:bg-indigo-300"
-                  : isUpdateDisabled
+              className={`flex justify-center items-center ${editMode
+                ? isUpdateDisabled
+                  ? "bg-indigo-500 border-2 border-indigo-500 cursor-not-allowed opacity-50"
+                  : "bg-indigo-600 border-2 border-indigo-500 hover:bg-indigo-300"
+                : isUpdateDisabled
                   ? "bg-green-400 border-2 border-green-500 cursor-not-allowed opacity-50"
-                  : "bg-green-400 border-2 border-green-500 hover:bg-green-300" } px-5 py-3 gap-3 text-white rounded-full border-2 transition duration-300 ease-in-out`} > <span className="material-symbols-outlined">
-                  {editMode ? "update" : "add_task"}
-                </span>
-                {editMode ? "Update" : "Save"}{" "} 
+                  : "bg-green-400 border-2 border-green-500 hover:bg-green-300"} px-5 py-3 gap-3 text-white rounded-full border-2 transition duration-300 ease-in-out`} > <span className="material-symbols-outlined">
+                {editMode ? "update" : "add_task"}
+              </span>
+              {editMode ? "Update" : "Save"}{" "}
             </button>
             <button
               onClick={editMode ? cancelEdit : () => setForm({ site: "", userName: "", passWord: "" })}
@@ -286,7 +285,7 @@ const Manager = () => {
                   : "bg-blue-400 cursor-not-allowed opacity-50"
                 } rounded-full px-5 py-2 gap-2 border-2 ${editMode ? "border-red-500" : "border-blue-500"}`}
             >
-                <span className="material-symbols-outlined">
+              <span className="material-symbols-outlined">
                 {editMode ? "cancel" : "clear"}
               </span>
               {editMode ? "Cancel" : "Clear"}
@@ -297,28 +296,32 @@ const Manager = () => {
           <h2 className="font-bold text-2xl py-4">Your Passwords</h2>
           {passwdArray.length === 0 && <div>No passwords to show</div>}
           {passwdArray.length !== 0 && (
+            <div className="overflow-x-auto">
             <table className="table-auto w-full rounded-md overflow-hidden mb-10">
               <thead className="bg-green-800 text-white">
                 <tr>
-                  <th className="py-2">Site</th>
-                  <th className="py-2">Username</th>
-                  <th className="py-2">Password</th>
-                  <th className="py-2">Actions</th>
+                  <th className="py-2 px-4">Site</th>
+                  <th className="py-2 px-4">Username</th>
+                  <th className="py-2 px-4">Password</th>
+                  <th className="py-2 px-4">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-green-100">
                 {passwdArray.map((item, idx) => (
                   <tr key={idx}>
-                    <td className="text-center py-2 border border-white">
-                      <div className="flex justify-center items-center">
-                        <a href={item.site} target="_blank">
+                    <td className="text-left p-3 border border-white">
+                      <div className="flex justify-between items-center">
+                        <a
+                          href={item.site.startsWith("http") ? item.site : `https://${item.site}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
                           {item.site}
                         </a>
                         <div
                           className="size-7 cursor-pointer copy-icon"
-                          onClick={() => {
-                            copyText(item.site);
-                          }}
+                          onClick={() => copyText(item.site)}
                         >
                           <span className="material-symbols-outlined w-6 h-6 pl-1 hover:opacity-75">
                             content_copy
@@ -326,8 +329,8 @@ const Manager = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="text-center py-2 border border-white">
-                      <div className="flex justify-center items-center">
+                    <td className="text-left p-3 border border-white">
+                      <div className="flex justify-between items-center">
                         <span>{item.userName}</span>
                         <div
                           className="size-7 cursor-pointer copy-icon"
@@ -339,8 +342,8 @@ const Manager = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="text-center py-2 border border-white">
-                      <div className="flex justify-center items-center">
+                    <td className="text-left p-3 border border-white">
+                      <div className="flex justify-between items-center">
                         <span>{"*".repeat(item.passWord.length)}</span>
                         <div
                           className="size-7 cursor-pointer copy-icon"
@@ -352,7 +355,6 @@ const Manager = () => {
                         </div>
                       </div>
                     </td>
-
                     <td className="py-2 text-center border border-white">
                       <button
                         onClick={() => editPasswd(item.id)}
@@ -364,15 +366,15 @@ const Manager = () => {
                         onClick={() => deletePasswd(item.id)}
                         className="bg-red-400 hover:bg-red-300 icon rounded-full px-2 py-1 mx-1"
                       >
-                        <span className="material-symbols-outlined">
-                          delete
-                        </span>
+                        <span className="material-symbols-outlined">delete</span>
                       </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+          
           )}
         </div>
       </div>

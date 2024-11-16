@@ -12,6 +12,10 @@ PassOp is a secure password management application built with React and Vite, fe
 - Responsive UI with Tailwind CSS
 - Real-time notifications using React Toastify
 
+## Live Project
+
+Visit the live version of the project here: [PassOP](https://passop-live.onrender.com)
+
 ## Tech Stack
 
 ### Frontend
