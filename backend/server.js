@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import { MongoClient } from "mongodb";
 import cors from "cors";
 
-dotenv.config(); 
+dotenv.config();
 
 // Connection URL
 const url = process.env.MONGO_URI;
@@ -19,22 +19,15 @@ app.use(bodyParser.json());
 
 // CORS configuration
 app.use(cors({
-    origin: [
-        'https://passop-live.onrender.com',
-        'http://localhost:5173',
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
+  origin: [
+    'https://passop-live.onrender.com',
+    'http://localhost:5173',
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://passop-live.onrender.com');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
 
 client
   .connect()
@@ -51,19 +44,24 @@ client
 
     // Save a password
     app.post("/", async (req, res) => {
-      console.log("Saving password:", req.body);
+      const credentials = req.body;
+      if (!credentials.site || !credentials.userName || !credentials.passWord) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      console.log("Saving password:", credentials);
       await collection.insertOne(credentials);
       const findResult = await collection.find({}).toArray();
       res.send({ success: true, result: findResult });
     });
 
+
     // Delete a password by id
     app.delete("/", async (req, res) => {
       const { id } = req.body;
       const credentials = req.body;
-        
+
       if (!credentials.site || !credentials.userName || !credentials.passWord) {
-          return res.status(400).json({ error: "Missing required fields" });
+        return res.status(400).json({ error: "Missing required fields" });
       }
 
       await collection.deleteOne({ id });
@@ -83,7 +81,7 @@ client
         res.status(500).json({ error: 'Failed to update password' });
       }
     });
-    
+
     app.listen(port, () => {
       console.log(`App listening on http://localhost:${port}`);
     });
@@ -91,5 +89,5 @@ client
 
   .catch((error) => {
     console.error("Failed to connect to the database", error);
-    process.exit(1); 
+    process.exit(1);
   });
